@@ -1,11 +1,13 @@
 {
   "domain": "cortana_rings",
   "name": "Cortana Rings",
-  "version": "1.0.4",
-  "documentation": "https://github.com/loryanstrant/HA-Cortana-satellite-rings",
-  "config_flow": true,
-  "dependencies": ["frontend", "lovelace"],
   "codeowners": ["@loryanstrant"],
+  "config_flow": true,
+  "dependencies": ["frontend", "http", "lovelace"],
+  "documentation": "https://github.com/loryanstrant/HA-Cortana-satellite-rings",
+  "integration_type": "service",
   "iot_class": "local_push",
-  "integration_type": "service"
+  "issue_tracker": "https://github.com/loryanstrant/HA-Cortana-satellite-rings/issues",
+  "requirements": [],
+  "version": "1.0.4"
 }

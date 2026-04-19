@@ -1,0 +1,39 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configure Cortana Rings",
+        "description": "Select a voice assistant satellite to visualise. Optionally choose a media player for Cortana sounds.",
+        "data": {
+          "satellite_entity_id": "Voice Assistant Satellite",
+          "media_player_entity_id": "Media Player (for sounds)"
+        },
+        "data_description": {
+          "satellite_entity_id": "The assist_satellite entity to monitor",
+          "media_player_entity_id": "Leave empty to disable Cortana sound playback"
+        }
+      }
+    },
+    "error": {
+      "already_configured": "This satellite is already configured"
+    },
+    "abort": {
+      "already_configured": "This satellite is already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Cortana Rings Options",
+        "data": {
+          "satellite_entity_id": "Voice Assistant Satellite",
+          "media_player_entity_id": "Media Player (for sounds)"
+        },
+        "data_description": {
+          "satellite_entity_id": "The assist_satellite entity to monitor",
+          "media_player_entity_id": "Leave empty to disable Cortana sound playback"
+        }
+      }
+    }
+  }
+}

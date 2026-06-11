@@ -28,7 +28,7 @@
  *     Ring contracts to scale(0.22) → visual r≈14, then expands back
  */
 
-const CARD_VERSION = "1.1.0";
+const CARD_VERSION = "0.2.0";
 
 // ── Cortana colour palette (pixel-extracted from reference GIFs) ─────────────
 const C_BRIGHT  = "#00A0C6";   // Bright cyan inner band   (r=50-58 in GIF)

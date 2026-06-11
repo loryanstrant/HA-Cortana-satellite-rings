@@ -28,7 +28,7 @@
  *     Ring contracts to scale(0.22) → visual r≈14, then expands back
  */
 
-const CARD_VERSION = "0.2.0";
+const CARD_VERSION = "0.2.1";
 
 // ── Cortana colour palette (pixel-extracted from reference GIFs) ─────────────
 const C_BRIGHT  = "#00A0C6";   // Bright cyan inner band   (r=50-58 in GIF)
@@ -268,11 +268,17 @@ class CortanaRingsCard extends HTMLElement {
   // (2026.5+), then friendly_name, then the raw entity id.
   _formatEntity(entityId) {
     if (!entityId) return "";
-    if (this._hass && typeof this._hass.formatEntityName === "function") {
-      const name = this._hass.formatEntityName(entityId);
-      if (name) return name;
-    }
     const st = this._hass && this._hass.states && this._hass.states[entityId];
+    // formatEntityName (2026.5+) takes the *state object*, not the entity id;
+    // passing a string makes it throw on `.attributes.friendly_name`. Guard it.
+    if (st && this._hass && typeof this._hass.formatEntityName === "function") {
+      try {
+        const name = this._hass.formatEntityName(st);
+        if (name) return name;
+      } catch (_e) {
+        /* fall through to friendly_name */
+      }
+    }
     return (st && st.attributes && st.attributes.friendly_name) || entityId;
   }
 

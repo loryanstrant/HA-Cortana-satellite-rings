@@ -28,7 +28,7 @@
  *     Ring contracts to scale(0.22) → visual r≈14, then expands back
  */
 
-const CARD_VERSION = "1.0.4";
+const CARD_VERSION = "1.1.0";
 
 // ── Cortana colour palette (pixel-extracted from reference GIFs) ─────────────
 const C_BRIGHT  = "#00A0C6";   // Bright cyan inner band   (r=50-58 in GIF)
@@ -244,7 +244,7 @@ class CortanaRingsCard extends HTMLElement {
     this._config = config;
     // If already rendered, update labels
     if (this._entityLabel) {
-      this._entityLabel.textContent = config.entity;
+      this._entityLabel.textContent = this._formatEntity(config.entity);
     }
   }
 
@@ -253,11 +253,27 @@ class CortanaRingsCard extends HTMLElement {
     if (!this.shadowRoot) {
       this._buildCard();
     }
+    // Keep the label showing the friendly name once hass is available.
+    if (this._entityLabel && this._config) {
+      this._entityLabel.textContent = this._formatEntity(this._config.entity);
+    }
     this._updateState();
   }
 
   getCardSize() {
     return 3;
+  }
+
+  // Friendly display name for an entity: prefer HA's formatEntityName helper
+  // (2026.5+), then friendly_name, then the raw entity id.
+  _formatEntity(entityId) {
+    if (!entityId) return "";
+    if (this._hass && typeof this._hass.formatEntityName === "function") {
+      const name = this._hass.formatEntityName(entityId);
+      if (name) return name;
+    }
+    const st = this._hass && this._hass.states && this._hass.states[entityId];
+    return (st && st.attributes && st.attributes.friendly_name) || entityId;
   }
 
   // ── Shadow DOM construction (runs once) ───────────────────────────────────
@@ -339,7 +355,7 @@ class CortanaRingsCard extends HTMLElement {
     // Entity name label
     const label = document.createElement("div");
     label.className = "entity-label";
-    label.textContent = this._config.entity || "";
+    label.textContent = this._formatEntity(this._config.entity);
     this._entityLabel = label;
     content.appendChild(label);
 
@@ -562,6 +578,11 @@ window.customCards.push({
     "Cortana-style concentric ring animations for voice assistant satellites, with authentic Cortana sounds.",
   preview: true,
   documentationURL: "https://github.com/loryanstrant/HA-Cortana-satellite-rings",
+  // Suggest this card when adding a card for an assist_satellite entity (2026.6+).
+  getEntitySuggestion: (hass, entityId) =>
+    typeof entityId === "string" && entityId.startsWith("assist_satellite.")
+      ? { config: { type: "custom:cortana-rings-card", entity: entityId } }
+      : null,
 });
 
 console.info(

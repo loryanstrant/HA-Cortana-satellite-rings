@@ -10,6 +10,8 @@ A custom Home Assistant integration that displays **Cortana-style animated rings
 - **Multiple animation states** — idle breathing, listening, processing (orbiting arcs), and responding
 - **Cortana sound effects** — plays authentic chimes when the voice assistant starts listening, stops listening, starts thinking, and completes a response
 - **Visual card editor** — configure directly from the Lovelace UI, no YAML required
+- **Entity suggestions** — offered as a card when you add an `assist_satellite` entity
+- **Consistent entity labels** — entity names rendered with Home Assistant's `formatEntityName` helper
 - **Auto-registration** — automatically registers itself as a Lovelace resource
 - **Dark theme optimised** — designed for dark HA themes with the authentic Cortana near-black background
 
